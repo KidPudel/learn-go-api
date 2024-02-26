@@ -16,7 +16,7 @@ func (handler WishesHandler) ServeHTTP(resWriter http.ResponseWriter, req *http.
 		fmt.Println("error while getting db")
 		return
 	}
-	fmt.Println("db connected")
+
 	switch {
 	case req.Method == "GET" && len(req.URL.Query()) == 0:
 		query := `select name, rate from wishes;`
