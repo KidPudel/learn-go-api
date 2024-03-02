@@ -49,20 +49,11 @@ func (handler WishesHandler) ServeHTTP(resWriter http.ResponseWriter, req *http.
 			fmt.Fprintln(resWriter, err.Error())
 			return
 		}
-		// first check, go on 0 index
-		for rows.Next() {
-			err := pgxscan.ScanRow(&wish, rows)
-			if err != nil {
-				fmt.Println(err)
-				break
-			}
-
-		}
 
 		// or
 
 		// []*Wish
-		var wishes []map[string]string
+		var wishes []map[string]interface{}
 		pgxscan.ScanAll(&wishes, rows)
 		fmt.Fprintf(resWriter, "wish: %v", wishes)
 
