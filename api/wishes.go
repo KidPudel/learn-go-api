@@ -59,6 +59,13 @@ func (handler WishesHandler) ServeHTTP(resWriter http.ResponseWriter, req *http.
 
 		}
 
+		// or
+
+		// []*Wish
+		var wishes []map[string]string
+		pgxscan.ScanAll(&wishes, rows)
+		fmt.Fprintf(resWriter, "wish: %v", wishes)
+
 		fmt.Fprintf(resWriter, "wish: %v", wish)
 	default:
 		fmt.Fprintln(resWriter, "unhandled request")

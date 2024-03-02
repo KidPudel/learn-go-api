@@ -28,10 +28,10 @@ func ConnectDB() (*DB, error) {
 	config.ConnConfig.Host = "localhost"
 	config.ConnConfig.Port = 5432
 	config.ConnConfig.Database = "wishstore_db"
-
 	if err != nil {
 		return nil, fmt.Errorf("db error: %v", err)
 	}
+
 	dbPool, err := pgxpool.NewWithConfig(context.Background(), config)
 	if err != nil {
 		return nil, fmt.Errorf("db error: %v", err)
