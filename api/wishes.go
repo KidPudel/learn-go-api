@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -50,14 +51,23 @@ func (handler WishesHandler) ServeHTTP(resWriter http.ResponseWriter, req *http.
 			return
 		}
 
-		// or
+		for rows.Next() {
+			values, err := rows.Values()
+			if err != nil {
+				fmt.Fprintln(resWriter, err.Error())
+				return
+			}
+			fmt.Fprintln(resWriter, values...)
+			wish := rows.Scan()
+			fmt.Println(wish)
 
+		}
 		// []*Wish
 		var wishes []map[string]interface{}
 		pgxscan.ScanAll(&wishes, rows)
-		fmt.Fprintf(resWriter, "wish: %v", wishes)
 
-		fmt.Fprintf(resWriter, "wish: %v", wish)
+		json.NewEncoder(resWriter).Encode(wishes)
+
 	default:
 		fmt.Fprintln(resWriter, "unhandled request")
 	}
